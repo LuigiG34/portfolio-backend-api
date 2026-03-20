@@ -1,0 +1,63 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - .:/var/www/api
+    depends_on:
+      - db
+      - rabbitmq
+      - mailhog
+
+  litespeed:
+    image: litespeedtech/openlitespeed:latest
+    ports:
+      - "8080:8088"    # HTTP
+      - "7080:7080"    # LiteSpeed admin UI
+    volumes:
+      - .:/var/www/api
+      - ./docker/litespeed/vhconf.conf:/usr/local/lsws/conf/vhosts/localhost/vhconf.conf
+    depends_on:
+      - php
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"      # AMQP
+      - "15672:15672"    # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"    # SMTP
+      - "8025:8025"    # Web UI → localhost:8025
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8081:80"     # Database UI → localhost:8081
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - db
+
+volumes:
+  db_data:
