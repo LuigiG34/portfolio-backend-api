@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
     && pecl install amqp redis \
     && docker-php-ext-enable amqp redis
 
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
