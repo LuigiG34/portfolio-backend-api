@@ -11,3 +11,7 @@ api_platform:
     enable_swagger_ui: false
     enable_re_doc: false
     enable_scalar: true
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Entity'
+            - '%kernel.project_dir%/src/Controller'
