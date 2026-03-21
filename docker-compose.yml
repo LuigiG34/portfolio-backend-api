@@ -10,14 +10,13 @@ services:
       - rabbitmq
       - mailhog
 
-  litespeed:
-    image: litespeedtech/openlitespeed:latest
+  nginx:
+    image: nginx:alpine
     ports:
-      - "8080:8088"    # HTTP
-      - "7080:7080"    # LiteSpeed admin UI
+      - "8080:80"
     volumes:
       - .:/var/www/api
-      - ./docker/litespeed/vhconf.conf:/usr/local/lsws/conf/vhosts/localhost/vhconf.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
 
