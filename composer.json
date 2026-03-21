@@ -29,7 +29,8 @@
         "symfony/serializer": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/validator": "7.4.*",
-        "symfony/yaml": "7.4.*"
+        "symfony/yaml": "7.4.*",
+        "zircote/swagger-php": "^6.0"
     },
     "config": {
         "allow-plugins": {
