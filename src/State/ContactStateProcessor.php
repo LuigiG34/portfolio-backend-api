@@ -18,17 +18,19 @@ final class ContactStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Contact
     {
-        assert($data instanceof Contact); 
+        if (!$data instanceof Contact) {
+            throw new \InvalidArgumentException('Expected instance of Contact.');
+        }
 
         $this->entityManager->persist($data);
         $this->entityManager->flush();
 
-        $this->bus->dispatch(new SendContactEmail(
-            $data->getName(),
-            $data->getEmail(),
-            $data->getMessage(),
-            $data->getId(),
-        ));
+        $name    = $data->getName()    ?? throw new \InvalidArgumentException('Contact name is required.');
+        $email   = $data->getEmail()   ?? throw new \InvalidArgumentException('Contact email is required.');
+        $message = $data->getMessage() ?? throw new \InvalidArgumentException('Contact message is required.');
+        $id      = $data->getId()      ?? throw new \InvalidArgumentException('Contact id is missing.');
+
+        $this->bus->dispatch(new SendContactEmail($name, $email, $message, $id));
 
         return $data;
     }
