@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Contact;
 use App\Message\SendContactEmail;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +36,7 @@ class MessengerFailureSubscriber implements EventSubscriberInterface
         }
 
         $contact = $this->contactRepository->find($message->getContactId());
-        if ($contact) {
+        if ($contact instanceof Contact) {
             $contact->setStatus('failed');
             $this->entityManager->flush();
         }

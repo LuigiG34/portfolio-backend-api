@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\ImageUploadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -29,6 +30,9 @@ class ImageUploadController extends AbstractController
 
         $uploaded = [];
         foreach ($files as $file) {
+            if (!$file instanceof UploadedFile) {
+                continue;
+            }
             $image = $imageUploadService->upload($file);
             $uploaded[] = [
                 'id'          => $image->getId(),

@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Entity\Contact;
 use App\Message\SendContactEmail;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,7 +37,7 @@ final class SendContactEmailHandler
         $this->mailer->send($email);
 
         $contact = $this->contactRepository->find($message->getContactId());
-        if ($contact) {
+        if ($contact instanceof Contact) {
             $contact->setStatus('sent');
             $this->entityManager->flush();
         }

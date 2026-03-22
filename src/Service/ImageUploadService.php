@@ -74,14 +74,17 @@ class ImageUploadService
         $mime = $file->getMimeType();
 
         $source = match($mime) {
-            'image/jpeg'  => imagecreatefromjpeg($file->getPathname()),
-            'image/png'   => imagecreatefrompng($file->getPathname()),
-            'image/gif'   => imagecreatefromgif($file->getPathname()),
-            'image/webp'  => imagecreatefromwebp($file->getPathname()),
-            default       => throw new BadRequestHttpException('Unsupported image type.'),
+            'image/jpeg' => imagecreatefromjpeg($file->getPathname()),
+            'image/png'  => imagecreatefrompng($file->getPathname()),
+            'image/gif'  => imagecreatefromgif($file->getPathname()),
+            'image/webp' => imagecreatefromwebp($file->getPathname()),
+            default      => throw new BadRequestHttpException('Unsupported image type.'),
         };
 
-        // Preserve transparency for PNG and GIF
+        if ($source === false) {
+            throw new BadRequestHttpException('Could not process image file.');
+        }
+
         if (in_array($mime, ['image/png', 'image/gif'])) {
             imagepalettetotruecolor($source);
             imagealphablending($source, true);
