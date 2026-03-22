@@ -18,3 +18,5 @@
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 /migrations/
+/public/images/*
+!/public/images/.gitkeep
