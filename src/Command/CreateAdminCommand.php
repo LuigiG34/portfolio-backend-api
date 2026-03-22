@@ -36,8 +36,8 @@ class CreateAdminCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $username = $input->getArgument('username');
-        $password = $input->getArgument('password');
+        $username = (string) $input->getArgument('username');
+        $password = (string) $input->getArgument('password');
 
         $user = new User();
         $user->setUsername($username);
