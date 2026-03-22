@@ -18,6 +18,8 @@ final class ContactStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Contact
     {
+        assert($data instanceof Contact); 
+
         $this->entityManager->persist($data);
         $this->entityManager->flush();
 

@@ -13,14 +13,18 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    /** @return Project[] */
     public function findAllWithTechnologies(): array
     {
-        return $this->createQueryBuilder('p')
+        /** @var Project[] $result */
+        $result = $this->createQueryBuilder('p')
             ->addSelect('t', 'i')
             ->leftJoin('p.technologies', 't')
             ->leftJoin('p.image', 'i')
             ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }

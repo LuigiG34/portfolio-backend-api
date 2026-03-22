@@ -13,13 +13,17 @@ class ExperienceRepository extends ServiceEntityRepository
         parent::__construct($registry, Experience::class);
     }
 
+    /** @return Experience[] */
     public function findAllWithTasks(): array
     {
-        return $this->createQueryBuilder('e')
+        /** @var Experience[] $result */
+        $result = $this->createQueryBuilder('e')
             ->addSelect('t')
             ->leftJoin('e.tasks', 't')
             ->orderBy('e.startedAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 }
