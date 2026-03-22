@@ -42,7 +42,7 @@ class Project
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Url]
+    #[Assert\Url(requireTld: true)]
     #[Groups(['project:read', 'project:write'])]
     private ?string $websiteUrl = null;
 
