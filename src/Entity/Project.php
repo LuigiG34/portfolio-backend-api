@@ -99,6 +99,7 @@ class Project
         return $this;
     }
 
+    /** @return Collection<int, Technology> */
     public function getTechnologies(): Collection { return $this->technologies; }
 
     public function addTechnology(Technology $technology): static
