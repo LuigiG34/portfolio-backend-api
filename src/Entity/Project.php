@@ -18,11 +18,11 @@ use ApiPlatform\Metadata\Delete;
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
-        new Get(security: "is_granted('ROLE_ADMIN')"),
-        new Post(security: "is_granted('ROLE_ADMIN')"),
-        new Put(security: "is_granted('ROLE_ADMIN')"),
-        new Delete(security: "is_granted('ROLE_ADMIN')"),
+        new GetCollection(security: "is_granted('PROJECT_VIEW', object)"),
+        new Get(security: "is_granted('PROJECT_VIEW', object)"),
+        new Post(security: "is_granted('PROJECT_CREATE')"),
+        new Put(security: "is_granted('PROJECT_EDIT', object)"),
+        new Delete(security: "is_granted('PROJECT_DELETE', object)"),
     ],
     normalizationContext: ['groups' => ['project:read']],
     denormalizationContext: ['groups' => ['project:write']],
