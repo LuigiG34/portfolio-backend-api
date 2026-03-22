@@ -20,5 +20,5 @@ framework:
             failed:
                 dsn: 'doctrine://default?queue_name=failed'
 
-        # routing:
-        #     App\Message\SendContactEmail: async
+        routing:
+            App\Message\SendContactEmail: async
