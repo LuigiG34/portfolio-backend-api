@@ -22,3 +22,7 @@ services:
     App\Service\ImageUploadService:
         arguments:
             $uploadDir: '%kernel.project_dir%/public/images'
+
+    App\MessageHandler\SendContactEmailHandler:
+        arguments:
+            $emailTo: '%env(EMAIL_TO)%'
