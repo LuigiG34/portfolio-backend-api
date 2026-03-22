@@ -47,13 +47,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /** @return string[] */
     public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
-        return array_unique($roles);
+        /** @var string[] $unique */
+        $unique = array_unique($roles);
+        return $unique;
     }
 
+    /** @param string[] $roles */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -62,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return (string) $this->username ?: 'unknown';
     }
 
     public function eraseCredentials(): void {}
