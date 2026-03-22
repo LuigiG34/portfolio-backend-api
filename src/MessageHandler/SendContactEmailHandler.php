@@ -16,13 +16,14 @@ final class SendContactEmailHandler
         private readonly MailerInterface $mailer,
         private readonly ContactRepository $contactRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly string $emailTo,
     ) {}
 
     public function __invoke(SendContactEmail $message): void
     {
         $email = (new Email())
             ->from($message->getEmail())
-            ->to($_ENV['EMAIL_TO'])
+            ->to($this->emailTo)
             ->subject("Portfolio contact from {$message->getName()}")
             ->html("
                 <h2>New contact from your portfolio</h2>
