@@ -185,7 +185,8 @@ jobs:
               /opt/alt/php83/usr/bin/php -v
               ls -la
               ls -la config/jwt || true
-              /opt/alt/php83/usr/bin/php bin/console about --env=prod -vvv 2>&1
+              APP_DEBUG=1 /opt/alt/php83/usr/bin/php -d display_errors=1 -d error_reporting=E_ALL bin/console about --env=prod 2>&1 || true
+              cat var/log/prod.log 2>/dev/null || true
 
               /opt/alt/php83/usr/bin/php bin/console cache:clear --env=prod
               /opt/alt/php83/usr/bin/php bin/console cache:warmup --env=prod
