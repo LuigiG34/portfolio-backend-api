@@ -153,6 +153,12 @@ jobs:
               set -eux
               cd "${{ secrets.REMOTE_PATH }}"
 
+              touch .env
+              cat > .env.local <<'EOF'
+              APP_ENV=prod
+              APP_DEBUG=0
+              EOF
+
               # Write .env.local with all prod secrets
               cat > .env.local <<'EOF'
               APP_ENV=prod
