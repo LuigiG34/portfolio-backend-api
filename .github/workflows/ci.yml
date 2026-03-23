@@ -107,8 +107,11 @@ jobs:
           tools: composer:v2
 
       - name: Install prod dependencies
+        env:
+          APP_ENV: prod
+          APP_DEBUG: 0
         run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-
+        
       - name: Deploy via rsync
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
