@@ -123,14 +123,12 @@ jobs:
           set -e
           sudo apt-get update -y
           sudo apt-get install -y rsync
-
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keygen -lf ~/.ssh/id_ed25519
           ssh-keyscan -p "${SSH_PORT:-22}" "$SSH_HOST" >> ~/.ssh/known_hosts
-
-          ssh -vvv -i ~/.ssh/id_ed25519 -p "${SSH_PORT:-22}" -o IdentitiesOnly=yes "${SSH_USER}@${SSH_HOST}" "echo SSH_OK"
+          ssh -i ~/.ssh/id_ed25519 -p "${SSH_PORT:-22}" -o IdentitiesOnly=yes "${SSH_USER}@${SSH_HOST}" "echo SSH_OK"
           rsync -az --delete \
             --exclude=".git" \
             --exclude=".github" \
