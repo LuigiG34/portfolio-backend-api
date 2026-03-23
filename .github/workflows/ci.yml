@@ -72,7 +72,7 @@ jobs:
       - name: Create test DB schema
         env:
           APP_ENV: test
-          DATABASE_URL: mysql://app:app@127.0.0.1:3306/portfolio_test?serverVersion=8.0
+          DATABASE_URL: mysql://app:app@127.0.0.1:3306/portfolio?serverVersion=8.0
         run: |
           php bin/console doctrine:schema:create --env=test
 
