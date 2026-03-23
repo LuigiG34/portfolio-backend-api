@@ -6,8 +6,8 @@ use App\Entity\Image;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** 
- * @extends ServiceEntityRepository<Image> 
+/**
+ * @extends ServiceEntityRepository<Image>
  * */
 class ImageRepository extends ServiceEntityRepository
 {

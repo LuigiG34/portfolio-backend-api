@@ -6,8 +6,8 @@ use App\Entity\Degree;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** 
- * @extends ServiceEntityRepository<Degree> 
+/**
+ * @extends ServiceEntityRepository<Degree>
  * */
 class DegreeRepository extends ServiceEntityRepository
 {

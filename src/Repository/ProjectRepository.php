@@ -6,8 +6,8 @@ use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** 
- * @extends ServiceEntityRepository<Project> 
+/**
+ * @extends ServiceEntityRepository<Project>
  * */
 class ProjectRepository extends ServiceEntityRepository
 {

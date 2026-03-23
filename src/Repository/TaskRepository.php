@@ -6,8 +6,8 @@ use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** 
- * @extends ServiceEntityRepository<Task> 
+/**
+ * @extends ServiceEntityRepository<Task>
  * */
 class TaskRepository extends ServiceEntityRepository
 {

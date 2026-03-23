@@ -6,8 +6,8 @@ use App\Entity\Technology;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/** 
- * @extends ServiceEntityRepository<Technology> 
+/**
+ * @extends ServiceEntityRepository<Technology>
  * */
 class TechnologyRepository extends ServiceEntityRepository
 {
