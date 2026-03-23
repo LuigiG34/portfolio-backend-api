@@ -111,7 +111,7 @@ jobs:
           APP_ENV: prod
           APP_DEBUG: 0
         run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-        
+
       - name: Deploy via rsync
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -124,9 +124,10 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y rsync
           mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -p "${SSH_PORT:-22}" "$SSH_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_ed25519 -p "${SSH_PORT:-22}" -o IdentitiesOnly=yes "${SSH_USER}@${SSH_HOST}" "echo SSH_OK"
           rsync -az --delete \
             --exclude=".git" \
             --exclude=".github" \
