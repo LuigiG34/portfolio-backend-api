@@ -80,7 +80,7 @@ jobs:
         env:
           APP_ENV: test
           APP_SECRET: test_secret
-          DATABASE_URL: mysql://app:app@127.0.0.1:3306/portfolio_test?serverVersion=8.0
+          DATABASE_URL: mysql://app:app@127.0.0.1:3306/portfolio?serverVersion=8.0
           JWT_SECRET_KEY: config/jwt/private.pem
           JWT_PUBLIC_KEY: config/jwt/public.pem
           JWT_PASSPHRASE: ""
