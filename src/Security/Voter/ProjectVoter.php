@@ -7,6 +7,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @extends Voter<string, Project>
+ */
 class ProjectVoter extends Voter
 {
     public const VIEW = 'PROJECT_VIEW';
@@ -33,7 +36,7 @@ class ProjectVoter extends Voter
         }
 
         return match ($attribute) {
-            self::VIEW => true, // anyone authenticated can view
+            self::VIEW => true,
             self::CREATE => in_array('ROLE_ADMIN', $user->getRoles()),
             self::EDIT => in_array('ROLE_ADMIN', $user->getRoles()),
             self::DELETE => in_array('ROLE_ADMIN', $user->getRoles()),

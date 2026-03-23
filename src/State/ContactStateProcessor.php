@@ -9,6 +9,9 @@ use App\Message\SendContactEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+/**
+ * @implements ProcessorInterface<Contact, Contact>
+ */
 final class ContactStateProcessor implements ProcessorInterface
 {
     public function __construct(

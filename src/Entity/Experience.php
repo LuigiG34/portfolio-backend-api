@@ -60,6 +60,9 @@ class Experience
     #[Groups(['experience:read', 'experience:write'])]
     private ?string $companyName = null;
 
+    /**
+     * @var Collection<int, Task>
+     */
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'experience', cascade: ['persist', 'remove'])]
     #[Groups(['experience:read'])]
     private Collection $tasks;

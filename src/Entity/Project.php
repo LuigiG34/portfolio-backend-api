@@ -55,6 +55,9 @@ class Project
     #[Groups(['project:read', 'project:write'])]
     private ?Image $image = null;
 
+    /**
+     * @var Collection<int, Technology>
+     */
     #[ORM\ManyToMany(targetEntity: Technology::class)]
     #[ORM\JoinTable(name: 'project_technology')]
     #[Groups(['project:read', 'project:write'])]
