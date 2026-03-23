@@ -182,6 +182,4 @@ jobs:
                 -passin pass:${{ secrets.JWT_PASSPHRASE }}
             fi
 
-            /opt/alt/php83/usr/bin/php bin/console cache:clear --env=prod
-            /opt/alt/php83/usr/bin/php bin/console cache:warmup --env=prod
-            /opt/alt/php83/usr/bin/php bin/console doctrine:migrations:migrate --no-interaction --env=prod
+            /opt/alt/php83/usr/bin/php -d display_errors=1 -d error_reporting=E_ALL bin/console about --env=prod -vvv
