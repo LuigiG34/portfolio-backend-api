@@ -159,8 +159,8 @@ jobs:
               APP_DEBUG=0
               APP_SECRET=${{ secrets.APP_SECRET }}
               DATABASE_URL="mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASS }}@${{ secrets.DB_HOST }}:3306/${{ secrets.DB_NAME }}?serverVersion=8.0&charset=utf8mb4"
-              JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
-              JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+              JWT_SECRET_KEY=${{ secrets.REMOTE_PATH }}/config/jwt/private.pem
+              JWT_PUBLIC_KEY=${{ secrets.REMOTE_PATH }}/config/jwt/public.pem
               JWT_PASSPHRASE=${{ secrets.JWT_PASSPHRASE }}
               MESSENGER_TRANSPORT_DSN=${{ secrets.MESSENGER_TRANSPORT_DSN }}
               MAILER_DSN=${{ secrets.MAILER_DSN }}
