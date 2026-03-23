@@ -32,7 +32,7 @@ class SendContactEmailHandlerTest extends TestCase
         $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->expects($this->once())->method('flush');
 
-        $handler = new SendContactEmailHandler($mailer, $contactRepository, $entityManager);
+        $handler = new SendContactEmailHandler($mailer, $contactRepository, $entityManager, 'test@test.com');
         $handler(new SendContactEmail('John Doe', 'john@example.com', 'Hello!', 42));
 
         $this->assertSame('sent', $contact->getStatus());
@@ -49,7 +49,7 @@ class SendContactEmailHandlerTest extends TestCase
         $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->expects($this->never())->method('flush');
 
-        $handler = new SendContactEmailHandler($mailer, $contactRepository, $entityManager);
+        $handler = new SendContactEmailHandler($mailer, $contactRepository, $entityManager, 'test@test.com');
         $handler(new SendContactEmail('John Doe', 'john@example.com', 'Hello!', 99));
 
         $this->assertTrue(true);
