@@ -7,7 +7,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-  # ── Quality ───────────────────────────────────────────────────
   quality:
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +28,6 @@ jobs:
       - name: PHPStan
         run: vendor/bin/phpstan analyse --level=8 src
 
-  # ── Tests ─────────────────────────────────────────────────────
   tests:
     runs-on: ubuntu-latest
     needs: quality
@@ -73,8 +71,7 @@ jobs:
         env:
           APP_ENV: test
           DATABASE_URL: mysql://app:app@127.0.0.1:3306/portfolio?serverVersion=8.0
-        run: |
-          php bin/console doctrine:schema:create --env=test
+        run: php bin/console doctrine:schema:create --env=test
 
       - name: Run tests
         env:
@@ -90,7 +87,6 @@ jobs:
           EMAIL_TO: test@test.com
         run: vendor/bin/phpunit --testdox
 
-  # ── Deploy ────────────────────────────────────────────────────
   deploy:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: tests
@@ -110,13 +106,13 @@ jobs:
         env:
           APP_ENV: prod
           APP_DEBUG: 0
-        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+        run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --no-scripts
 
       - name: Deploy via rsync
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY:  ${{ secrets.SSH_KEY }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
         run: |
@@ -126,7 +122,6 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keygen -lf ~/.ssh/id_ed25519
           ssh-keyscan -p "${SSH_PORT:-22}" "$SSH_HOST" >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/id_ed25519 -p "${SSH_PORT:-22}" -o IdentitiesOnly=yes "${SSH_USER}@${SSH_HOST}" "echo SSH_OK"
           rsync -az --delete \
@@ -143,11 +138,14 @@ jobs:
 
       - name: Post-deploy on server
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          DB_PASS: ${{ secrets.DB_PASS }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          envs: DB_PASS
           script_stop: true
           script: |
             set -eu
@@ -155,11 +153,13 @@ jobs:
 
             : > .env
 
+            DB_PASS_ENCODED=$(/opt/alt/php83/usr/bin/php -r 'echo rawurlencode(getenv("DB_PASS"));')
+
             printf "%s\n" \
-            "APP_ENV=\"prod\"" \
-            "APP_DEBUG=\"0\"" \
+            "APP_ENV=prod" \
+            "APP_DEBUG=0" \
             "APP_SECRET=\"${{ secrets.APP_SECRET }}\"" \
-            "DATABASE_URL=\"mysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASS }}@${{ secrets.DB_HOST }}:3306/${{ secrets.DB_NAME }}?serverVersion=8.0&charset=utf8mb4\"" \
+            "DATABASE_URL=\"mysql://${{ secrets.DB_USER }}:${DB_PASS_ENCODED}@${{ secrets.DB_HOST }}:3306/${{ secrets.DB_NAME }}?serverVersion=8.0&charset=utf8mb4\"" \
             "JWT_SECRET_KEY=\"${{ secrets.REMOTE_PATH }}/config/jwt/private.pem\"" \
             "JWT_PUBLIC_KEY=\"${{ secrets.REMOTE_PATH }}/config/jwt/public.pem\"" \
             "JWT_PASSPHRASE=\"${{ secrets.JWT_PASSPHRASE }}\"" \
@@ -182,4 +182,6 @@ jobs:
                 -passin pass:${{ secrets.JWT_PASSPHRASE }}
             fi
 
-            /opt/alt/php83/usr/bin/php -d display_errors=1 -d error_reporting=E_ALL bin/console about --env=prod -vvv
+            /opt/alt/php83/usr/bin/php bin/console cache:clear --env=prod
+            /opt/alt/php83/usr/bin/php bin/console cache:warmup --env=prod
+            /opt/alt/php83/usr/bin/php bin/console doctrine:migrations:migrate --no-interaction --env=prod
