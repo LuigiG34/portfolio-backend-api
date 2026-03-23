@@ -2,10 +2,10 @@
 
 namespace App\Tests\Unit\State;
 
+use ApiPlatform\Metadata\Post;
 use App\Entity\Contact;
 use App\Message\SendContactEmail;
 use App\State\ContactStateProcessor;
-use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;

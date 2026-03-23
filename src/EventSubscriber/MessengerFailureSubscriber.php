@@ -14,7 +14,8 @@ class MessengerFailureSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly ContactRepository $contactRepository,
         private readonly EntityManagerInterface $entityManager,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

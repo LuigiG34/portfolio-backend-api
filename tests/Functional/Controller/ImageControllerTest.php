@@ -48,11 +48,11 @@ class ImageControllerTest extends WebTestCase
         $path = tempnam(sys_get_temp_dir(), 'test_img');
 
         $image = imagecreatetruecolor(10, 10);
-        match($mime) {
+        match ($mime) {
             'image/jpeg' => imagejpeg($image, $path),
-            'image/png'  => imagepng($image, $path),
+            'image/png' => imagepng($image, $path),
             'image/webp' => imagewebp($image, $path),
-            default      => imagejpeg($image, $path),
+            default => imagejpeg($image, $path),
         };
         imagedestroy($image);
 
@@ -76,7 +76,7 @@ class ImageControllerTest extends WebTestCase
             '/api/images/upload',
             [],
             ['files' => [$this->createFakeImageFile()]],
-            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token],
+            ['HTTP_AUTHORIZATION' => 'Bearer '.$token],
         );
 
         $this->assertResponseStatusCodeSame(201);
@@ -105,7 +105,7 @@ class ImageControllerTest extends WebTestCase
                 $this->createFakeImageFile('image/png'),
                 $this->createFakeImageFile('image/jpeg'),
             ]],
-            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token],
+            ['HTTP_AUTHORIZATION' => 'Bearer '.$token],
         );
 
         $this->assertResponseStatusCodeSame(201);
@@ -132,7 +132,7 @@ class ImageControllerTest extends WebTestCase
             '/api/images/upload',
             [],
             [],
-            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token],
+            ['HTTP_AUTHORIZATION' => 'Bearer '.$token],
         );
 
         $this->assertResponseStatusCodeSame(400);
@@ -151,7 +151,7 @@ class ImageControllerTest extends WebTestCase
             '/api/images/upload',
             [],
             ['files' => [$file]],
-            ['HTTP_AUTHORIZATION' => 'Bearer ' . $token],
+            ['HTTP_AUTHORIZATION' => 'Bearer '.$token],
         );
 
         $this->assertResponseStatusCodeSame(400);

@@ -9,9 +9,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ProjectVoter extends Voter
 {
-    public const VIEW   = 'PROJECT_VIEW';
+    public const VIEW = 'PROJECT_VIEW';
     public const CREATE = 'PROJECT_CREATE';
-    public const EDIT   = 'PROJECT_EDIT';
+    public const EDIT = 'PROJECT_EDIT';
     public const DELETE = 'PROJECT_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
@@ -32,12 +32,12 @@ class ProjectVoter extends Voter
             return false;
         }
 
-        return match($attribute) {
-            self::VIEW   => true, // anyone authenticated can view
+        return match ($attribute) {
+            self::VIEW => true, // anyone authenticated can view
             self::CREATE => in_array('ROLE_ADMIN', $user->getRoles()),
-            self::EDIT   => in_array('ROLE_ADMIN', $user->getRoles()),
+            self::EDIT => in_array('ROLE_ADMIN', $user->getRoles()),
             self::DELETE => in_array('ROLE_ADMIN', $user->getRoles()),
-            default      => false,
+            default => false,
         };
     }
 }

@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\TechnologyRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
+use App\Repository\TechnologyRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TechnologyRepository::class)]
 #[UniqueEntity(fields: ['name'], message: 'This technology already exists.')]
@@ -46,21 +46,32 @@ class Technology
     #[Groups(['technology:read', 'technology:write'])]
     private ?Image $image = null;
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getName(): ?string { return $this->name; }
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 
-    public function getImage(): ?Image { return $this->image; }
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
 
     public function setImage(Image $image): static
     {
         $this->image = $image;
+
         return $this;
     }
 }

@@ -18,7 +18,8 @@ final class SendContactEmailHandler
         private readonly ContactRepository $contactRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly string $emailTo,
-    ) {}
+    ) {
+    }
 
     public function __invoke(SendContactEmail $message): void
     {

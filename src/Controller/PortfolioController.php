@@ -24,22 +24,22 @@ class PortfolioController extends AbstractController
         NormalizerInterface $normalizer,
     ): JsonResponse {
         return $this->json([
-            'projects'     => $normalizer->normalize(
+            'projects' => $normalizer->normalize(
                 $projectRepository->findAllWithTechnologies(),
                 null,
                 ['groups' => ['project:read']]
             ),
-            'experiences'  => $normalizer->normalize(
+            'experiences' => $normalizer->normalize(
                 $experienceRepository->findAllWithTasks(),
                 null,
                 ['groups' => ['experience:read']]
             ),
-            'skills'       => $normalizer->normalize(
+            'skills' => $normalizer->normalize(
                 $skillRepository->findAll(),
                 null,
                 ['groups' => ['skill:read']]
             ),
-            'degrees'      => $normalizer->normalize(
+            'degrees' => $normalizer->normalize(
                 $degreeRepository->findAll(),
                 null,
                 ['groups' => ['degree:read']]

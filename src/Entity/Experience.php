@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\ExperienceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: ExperienceRepository::class)]
 #[ApiResource(
@@ -69,50 +69,76 @@ class Experience
         $this->tasks = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getStartedAt(): ?\DateTimeInterface { return $this->startedAt; }
+    public function getStartedAt(): ?\DateTimeInterface
+    {
+        return $this->startedAt;
+    }
 
     public function setStartedAt(\DateTimeInterface $startedAt): static
     {
         $this->startedAt = $startedAt;
+
         return $this;
     }
 
-    public function getEndedAt(): ?\DateTimeInterface { return $this->endedAt; }
+    public function getEndedAt(): ?\DateTimeInterface
+    {
+        return $this->endedAt;
+    }
 
     public function setEndedAt(?\DateTimeInterface $endedAt): static
     {
         $this->endedAt = $endedAt;
+
         return $this;
     }
 
-    public function isIsCurrent(): bool { return $this->isCurrent; }
+    public function isIsCurrent(): bool
+    {
+        return $this->isCurrent;
+    }
 
     public function setIsCurrent(bool $isCurrent): static
     {
         $this->isCurrent = $isCurrent;
+
         return $this;
     }
 
-    public function getJobTitle(): ?string { return $this->jobTitle; }
+    public function getJobTitle(): ?string
+    {
+        return $this->jobTitle;
+    }
 
     public function setJobTitle(string $jobTitle): static
     {
         $this->jobTitle = $jobTitle;
+
         return $this;
     }
 
-    public function getCompanyName(): ?string { return $this->companyName; }
+    public function getCompanyName(): ?string
+    {
+        return $this->companyName;
+    }
 
     public function setCompanyName(string $companyName): static
     {
         $this->companyName = $companyName;
+
         return $this;
     }
 
     /** @return Collection<int, Task> */
-    public function getTasks(): Collection { return $this->tasks; }
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
 
     public function addTask(Task $task): static
     {
@@ -120,6 +146,7 @@ class Experience
             $this->tasks->add($task);
             $task->setExperience($this);
         }
+
         return $this;
     }
 
@@ -130,6 +157,7 @@ class Experience
                 $task->setExperience(null);
             }
         }
+
         return $this;
     }
 }

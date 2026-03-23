@@ -19,7 +19,8 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
-    ) {}
+    ) {
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -32,9 +33,9 @@ class AppFixtures extends Fixture
 
         // ── Images ────────────────────────────────────────────────
         $images = [];
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $image = new Image();
-            $image->setFilename(bin2hex(random_bytes(24)) . '.webp');
+            $image->setFilename(bin2hex(random_bytes(24)).'.webp');
             $manager->persist($image);
             $images[] = $image;
         }
@@ -70,24 +71,24 @@ class AppFixtures extends Fixture
         // ── Experiences ───────────────────────────────────────────
         $experiences = [
             [
-                'company'   => 'Acme Corp',
+                'company' => 'Acme Corp',
                 'job_title' => 'Full Stack Developer',
-                'started'   => new \DateTime('2023-01-01'),
-                'ended'     => null,
-                'current'   => true,
-                'tasks'     => [
+                'started' => new \DateTime('2023-01-01'),
+                'ended' => null,
+                'current' => true,
+                'tasks' => [
                     'Developed REST APIs with Symfony',
                     'Built React frontends',
                     'Managed Docker infrastructure',
                 ],
             ],
             [
-                'company'   => 'Startup XYZ',
+                'company' => 'Startup XYZ',
                 'job_title' => 'Backend Developer',
-                'started'   => new \DateTime('2021-06-01'),
-                'ended'     => new \DateTime('2022-12-31'),
-                'current'   => false,
-                'tasks'     => [
+                'started' => new \DateTime('2021-06-01'),
+                'ended' => new \DateTime('2022-12-31'),
+                'current' => false,
+                'tasks' => [
                     'Designed and built microservices',
                     'Implemented CI/CD pipelines',
                 ],
@@ -115,16 +116,16 @@ class AppFixtures extends Fixture
         // ── Degrees ───────────────────────────────────────────────
         $degrees = [
             [
-                'title'       => 'Bachelor of Computer Science',
-                'school'      => 'University of Paris',
-                'graduated'   => new \DateTime('2021-06-30'),
-                'image'       => $images[5],
+                'title' => 'Bachelor of Computer Science',
+                'school' => 'University of Paris',
+                'graduated' => new \DateTime('2021-06-30'),
+                'image' => $images[5],
             ],
             [
-                'title'       => 'BTS SIO SLAM',
-                'school'      => 'Lycée Technique',
-                'graduated'   => new \DateTime('2019-06-30'),
-                'image'       => $images[6],
+                'title' => 'BTS SIO SLAM',
+                'school' => 'Lycée Technique',
+                'graduated' => new \DateTime('2019-06-30'),
+                'image' => $images[6],
             ],
         ];
 
@@ -140,25 +141,25 @@ class AppFixtures extends Fixture
         // ── Projects ──────────────────────────────────────────────
         $projects = [
             [
-                'name'        => 'Portfolio API',
+                'name' => 'Portfolio API',
                 'description' => 'A clean Symfony 7 REST API with JWT auth, RabbitMQ and API Platform.',
                 'website_url' => 'https://api.luigigandemer.fr',
-                'image'       => $images[7],
-                'techs'       => [$technologies[0], $technologies[2], $technologies[3]],
+                'image' => $images[7],
+                'techs' => [$technologies[0], $technologies[2], $technologies[3]],
             ],
             [
-                'name'        => 'E-commerce Platform',
+                'name' => 'E-commerce Platform',
                 'description' => 'Full stack e-commerce app built with Symfony and React.',
                 'website_url' => null,
-                'image'       => $images[8],
-                'techs'       => [$technologies[0], $technologies[1], $technologies[3]],
+                'image' => $images[8],
+                'techs' => [$technologies[0], $technologies[1], $technologies[3]],
             ],
             [
-                'name'        => 'Real-time Chat App',
+                'name' => 'Real-time Chat App',
                 'description' => 'WebSocket chat application with React frontend.',
                 'website_url' => null,
-                'image'       => $images[9],
-                'techs'       => [$technologies[1], $technologies[4]],
+                'image' => $images[9],
+                'techs' => [$technologies[1], $technologies[4]],
             ],
         ];
 

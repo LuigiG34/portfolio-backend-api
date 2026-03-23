@@ -86,6 +86,6 @@ class ProjectVoterTest extends TestCase
 
         $this->assertSame(-1, $this->voter->vote($token, $project, [ProjectVoter::DELETE]));
         $this->assertSame(-1, $this->voter->vote($token, $project, [ProjectVoter::EDIT]));
-        $this->assertSame(-1, $this->voter->vote($token, null,    [ProjectVoter::CREATE]));
+        $this->assertSame(-1, $this->voter->vote($token, null, [ProjectVoter::CREATE]));
     }
 }

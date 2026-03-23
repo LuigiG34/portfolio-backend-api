@@ -10,7 +10,8 @@ class PortfolioOpenApiDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
         private OpenApiFactoryInterface $decorated
-    ) {}
+    ) {
+    }
 
     public function __invoke(array $context = []): OpenApi
     {
@@ -32,29 +33,29 @@ class PortfolioOpenApiDecorator implements OpenApiFactoryInterface
                                     'properties' => [
                                         'projects' => [
                                             'type' => 'array',
-                                            'items' => ['$ref' => '#/components/schemas/Project']
+                                            'items' => ['$ref' => '#/components/schemas/Project'],
                                         ],
                                         'experiences' => [
                                             'type' => 'array',
-                                            'items' => ['$ref' => '#/components/schemas/Experience']
+                                            'items' => ['$ref' => '#/components/schemas/Experience'],
                                         ],
                                         'skills' => [
                                             'type' => 'array',
-                                            'items' => ['$ref' => '#/components/schemas/Skill']
+                                            'items' => ['$ref' => '#/components/schemas/Skill'],
                                         ],
                                         'degrees' => [
                                             'type' => 'array',
-                                            'items' => ['$ref' => '#/components/schemas/Degree']
+                                            'items' => ['$ref' => '#/components/schemas/Degree'],
                                         ],
                                         'technologies' => [
                                             'type' => 'array',
-                                            'items' => ['$ref' => '#/components/schemas/Technology']
+                                            'items' => ['$ref' => '#/components/schemas/Technology'],
                                         ],
-                                    ]
-                                ]
-                            ]
+                                    ],
+                                ],
+                            ],
                         ])
-                    )
+                    ),
                 ]
             )
         ));

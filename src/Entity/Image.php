@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
-use DateTimeImmutable;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
+use App\Repository\ImageRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ApiResource(
@@ -39,22 +38,32 @@ class Image
 
     #[ORM\Column]
     #[Groups(['image:read'])]
-    private DateTimeImmutable $uploadedAt;
+    private \DateTimeImmutable $uploadedAt;
 
     public function __construct()
     {
-        $this->uploadedAt = new DateTimeImmutable();
+        $this->uploadedAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getFilename(): ?string { return $this->filename; }
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
 
     public function setFilename(string $filename): static
     {
         $this->filename = $filename;
+
         return $this;
     }
 
-    public function getUploadedAt(): DateTimeImmutable { return $this->uploadedAt; }
+    public function getUploadedAt(): \DateTimeImmutable
+    {
+        return $this->uploadedAt;
+    }
 }

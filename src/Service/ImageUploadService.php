@@ -19,14 +19,15 @@ class ImageUploadService
     public function __construct(
         private readonly string $uploadDir,
         private readonly EntityManagerInterface $entityManager,
-    ) {}
+    ) {
+    }
 
     public function upload(UploadedFile $file): Image
     {
         $this->validate($file);
 
         $filename = $this->generateFilename();
-        $webpPath = $this->uploadDir . '/' . $filename;
+        $webpPath = $this->uploadDir.'/'.$filename;
 
         $this->convertToWebP($file, $webpPath);
 
@@ -41,7 +42,7 @@ class ImageUploadService
 
     public function delete(Image $image): void
     {
-        $path = $this->uploadDir . '/' . $image->getFilename();
+        $path = $this->uploadDir.'/'.$image->getFilename();
 
         if (file_exists($path)) {
             unlink($path);
@@ -51,37 +52,33 @@ class ImageUploadService
     private function validate(UploadedFile $file): void
     {
         if (!in_array($file->getMimeType(), self::ALLOWED_MIME_TYPES)) {
-            throw new BadRequestHttpException(
-                'Invalid file type. Allowed: jpg, png, gif, webp.'
-            );
+            throw new BadRequestHttpException('Invalid file type. Allowed: jpg, png, gif, webp.');
         }
 
         // 5MB max
         if ($file->getSize() > 5 * 1024 * 1024) {
-            throw new BadRequestHttpException(
-                'File too large. Maximum size is 5MB.'
-            );
+            throw new BadRequestHttpException('File too large. Maximum size is 5MB.');
         }
     }
 
     private function generateFilename(): string
     {
-        return bin2hex(random_bytes(24)) . '.webp';
+        return bin2hex(random_bytes(24)).'.webp';
     }
 
     private function convertToWebP(UploadedFile $file, string $outputPath): void
     {
         $mime = $file->getMimeType();
 
-        $source = match($mime) {
+        $source = match ($mime) {
             'image/jpeg' => imagecreatefromjpeg($file->getPathname()),
-            'image/png'  => imagecreatefrompng($file->getPathname()),
-            'image/gif'  => imagecreatefromgif($file->getPathname()),
+            'image/png' => imagecreatefrompng($file->getPathname()),
+            'image/gif' => imagecreatefromgif($file->getPathname()),
             'image/webp' => imagecreatefromwebp($file->getPathname()),
-            default      => throw new BadRequestHttpException('Unsupported image type.'),
+            default => throw new BadRequestHttpException('Unsupported image type.'),
         };
 
-        if ($source === false) {
+        if (false === $source) {
             throw new BadRequestHttpException('Could not process image file.');
         }
 

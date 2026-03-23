@@ -12,7 +12,8 @@ class ImageDeleteListener
 {
     public function __construct(
         private readonly ImageUploadService $imageUploadService,
-    ) {}
+    ) {
+    }
 
     public function preRemove(Image $image): void
     {

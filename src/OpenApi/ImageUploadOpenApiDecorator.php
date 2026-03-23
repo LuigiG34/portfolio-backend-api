@@ -10,7 +10,8 @@ class ImageUploadOpenApiDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
         private readonly OpenApiFactoryInterface $decorated,
-    ) {}
+    ) {
+    }
 
     public function __invoke(array $context = []): OpenApi
     {
@@ -30,9 +31,9 @@ class ImageUploadOpenApiDecorator implements OpenApiFactoryInterface
                                 'type' => 'object',
                                 'properties' => [
                                     'files[]' => [
-                                        'type'        => 'array',
-                                        'items'       => [
-                                            'type'   => 'string',
+                                        'type' => 'array',
+                                        'items' => [
+                                            'type' => 'string',
                                             'format' => 'binary',
                                         ],
                                         'description' => 'One or multiple image files',
@@ -49,13 +50,13 @@ class ImageUploadOpenApiDecorator implements OpenApiFactoryInterface
                         content: new \ArrayObject([
                             'application/json' => [
                                 'schema' => [
-                                    'type'  => 'array',
+                                    'type' => 'array',
                                     'items' => [
-                                        'type'       => 'object',
+                                        'type' => 'object',
                                         'properties' => [
-                                            'id'          => ['type' => 'integer'],
-                                            'filename'    => ['type' => 'string'],
-                                            'url'         => ['type' => 'string'],
+                                            'id' => ['type' => 'integer'],
+                                            'filename' => ['type' => 'string'],
+                                            'url' => ['type' => 'string'],
                                             'uploaded_at' => ['type' => 'string'],
                                         ],
                                     ],
@@ -69,6 +70,7 @@ class ImageUploadOpenApiDecorator implements OpenApiFactoryInterface
                 security: [['bearerAuth' => []]],
             )
         ));
+
         return $openApi;
     }
 }

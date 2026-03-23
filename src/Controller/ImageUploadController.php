@@ -35,9 +35,9 @@ class ImageUploadController extends AbstractController
             }
             $image = $imageUploadService->upload($file);
             $uploaded[] = [
-                'id'          => $image->getId(),
-                'filename'    => $image->getFilename(),
-                'url'         => $request->getSchemeAndHttpHost() . '/images/' . $image->getFilename(),
+                'id' => $image->getId(),
+                'filename' => $image->getFilename(),
+                'url' => $request->getSchemeAndHttpHost().'/images/'.$image->getFilename(),
                 'uploaded_at' => $image->getUploadedAt()->format('Y-m-d H:i:s'),
             ];
         }

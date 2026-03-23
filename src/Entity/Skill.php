@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\SkillRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
+use App\Repository\SkillRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SkillRepository::class)]
 #[ApiResource(
@@ -38,13 +38,20 @@ class Skill
     #[Groups(['skill:read', 'skill:write'])]
     private ?string $description = null;
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    public function getDescription(): ?string { return $this->description; }
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 }

@@ -15,15 +15,15 @@ class ImageUploadServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->testUploadDir = sys_get_temp_dir() . '/portfolio_test_uploads';
+        $this->testUploadDir = sys_get_temp_dir().'/portfolio_test_uploads';
         if (!is_dir($this->testUploadDir)) {
-            mkdir($this->testUploadDir, 0777, true);
+            mkdir($this->testUploadDir, 0o777, true);
         }
     }
 
     protected function tearDown(): void
     {
-        array_map('unlink', glob($this->testUploadDir . '/*'));
+        array_map('unlink', glob($this->testUploadDir.'/*'));
         rmdir($this->testUploadDir);
     }
 
@@ -44,9 +44,9 @@ class ImageUploadServiceTest extends TestCase
         $image = imagecreatetruecolor(1, 1);
         match ($mime) {
             'image/jpeg' => imagejpeg($image, $path),
-            'image/png'  => imagepng($image, $path),
+            'image/png' => imagepng($image, $path),
             'image/webp' => imagewebp($image, $path),
-            default      => imagejpeg($image, $path),
+            default => imagejpeg($image, $path),
         };
         imagedestroy($image);
 
@@ -56,8 +56,8 @@ class ImageUploadServiceTest extends TestCase
     public function testUploadReturnsImageEntity(): void
     {
         $service = $this->createService();
-        $file    = $this->createFakeImage();
-        $image   = $service->upload($file);
+        $file = $this->createFakeImage();
+        $image = $service->upload($file);
 
         $this->assertInstanceOf(Image::class, $image);
         $this->assertStringEndsWith('.webp', $image->getFilename());
@@ -67,10 +67,10 @@ class ImageUploadServiceTest extends TestCase
     public function testUploadCreatesFileOnDisk(): void
     {
         $service = $this->createService();
-        $file    = $this->createFakeImage();
-        $image   = $service->upload($file);
+        $file = $this->createFakeImage();
+        $image = $service->upload($file);
 
-        $this->assertFileExists($this->testUploadDir . '/' . $image->getFilename());
+        $this->assertFileExists($this->testUploadDir.'/'.$image->getFilename());
     }
 
     public function testUploadRejectsTooLargeFile(): void
@@ -102,10 +102,10 @@ class ImageUploadServiceTest extends TestCase
     public function testDeleteRemovesFileFromDisk(): void
     {
         $service = $this->createService();
-        $file    = $this->createFakeImage();
-        $image   = $service->upload($file);
+        $file = $this->createFakeImage();
+        $image = $service->upload($file);
 
-        $path = $this->testUploadDir . '/' . $image->getFilename();
+        $path = $this->testUploadDir.'/'.$image->getFilename();
         $this->assertFileExists($path);
 
         $service->delete($image);
