@@ -1,5 +1,16 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    http_cache: true
+    cache:
+        pools:
+            portfolio.cache:
+                adapter: cache.app
+                tags: true
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system
+                
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.

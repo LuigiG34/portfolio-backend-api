@@ -11,3 +11,9 @@
 | RabbitMQ UI           | http://localhost:15672    |
 | Mailhog UI            | http://localhost:8025     |
 | phpMyAdmin            | http://localhost:8081     |
+
+
+###### Always run these 3 before pushing anything:
+- `docker compose exec php vendor/bin/phpunit --testdox`
+- `docker compose exec php php -d memory_limit=512M vendor/bin/phpstan analyse`
+- `docker compose exec php vendor/bin/php-cs-fixer fix`
