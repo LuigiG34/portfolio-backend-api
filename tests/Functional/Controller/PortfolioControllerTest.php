@@ -49,4 +49,26 @@ class PortfolioControllerTest extends WebTestCase
         $this->assertStringContainsString('public', $response->headers->get('cache-control'));
         $this->assertStringContainsString('s-maxage=3600', $response->headers->get('cache-control'));
     }
+
+    public function testPortfolioRouteReturns429AfterTooManyRequests(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+
+        $container->get('cache.rate_limiter')->clear();
+
+        for ($i = 0; $i < 45; ++$i) {
+            $client->request('GET', '/api/portfolio', [], [], [
+                'HTTP_CACHE_CONTROL' => 'no-cache',
+                'HTTP_PRAGMA' => 'no-cache',
+            ]);
+            $this->assertResponseStatusCodeSame(200);
+        }
+
+        $client->request('GET', '/api/portfolio', [], [], [
+            'HTTP_CACHE_CONTROL' => 'no-cache',
+            'HTTP_PRAGMA' => 'no-cache',
+        ]);
+        $this->assertResponseStatusCodeSame(429);
+    }
 }
