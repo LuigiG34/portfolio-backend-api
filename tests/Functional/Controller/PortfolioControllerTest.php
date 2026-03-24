@@ -36,4 +36,17 @@ class PortfolioControllerTest extends WebTestCase
 
         $this->assertJson($client->getResponse()->getContent());
     }
+
+    public function testPortfolioRouteHasCacheHeaders(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/portfolio');
+
+        $response = $client->getResponse();
+
+        $this->assertResponseIsSuccessful();
+        $this->assertTrue($response->headers->has('etag'));
+        $this->assertStringContainsString('public', $response->headers->get('cache-control'));
+        $this->assertStringContainsString('s-maxage=3600', $response->headers->get('cache-control'));
+    }
 }

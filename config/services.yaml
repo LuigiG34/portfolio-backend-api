@@ -26,3 +26,6 @@ services:
     App\MessageHandler\SendContactEmailHandler:
         arguments:
             $emailTo: '%env(EMAIL_TO)%'
+
+    Symfony\Contracts\Cache\TagAwareCacheInterface $portfolioCache:
+        alias: portfolio.cache
