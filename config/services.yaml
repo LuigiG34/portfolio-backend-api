@@ -1,10 +1,11 @@
-
 parameters:
 
 services:
     _defaults:
         autowire: true      
         autoconfigure: true 
+        bind:
+            $anonymousApiLimiter: '@limiter.anonymous_api'
 
     App\:
         resource: '../src/'

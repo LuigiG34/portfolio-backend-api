@@ -6,6 +6,8 @@ framework:
             portfolio.cache:
                 adapter: cache.app
                 tags: true
+            cache.rate_limiter:
+                adapter: cache.app
             doctrine.result_cache_pool:
                 adapter: cache.app
             doctrine.system_cache_pool:
@@ -22,6 +24,7 @@ framework:
 
 when@test:
     framework:
+        http_cache: false
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file

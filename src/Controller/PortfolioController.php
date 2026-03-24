@@ -9,11 +9,13 @@ use App\Repository\SkillRepository;
 use App\Repository\TechnologyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class PortfolioController extends AbstractController
 {
@@ -27,7 +29,15 @@ class PortfolioController extends AbstractController
         TechnologyRepository $technologyRepository,
         NormalizerInterface $normalizer,
         TagAwareCacheInterface $portfolioCache,
+        RateLimiterFactory $anonymousApiLimiter,
+        Request $request,
     ): JsonResponse {
+        $limiter = $anonymousApiLimiter->create($request->getClientIp());
+
+        if (!$limiter->consume(1)->isAccepted()) {
+            return $this->json(['error' => 'Too many requests. Please try again later.'], 429);
+        }
+
         $data = $portfolioCache->get('portfolio_data', function (ItemInterface $item) use (
             $projectRepository,
             $experienceRepository,
