@@ -182,4 +182,4 @@ jobs:
 
             /opt/alt/php83/usr/bin/php bin/console cache:clear --env=prod
             /opt/alt/php83/usr/bin/php bin/console cache:warmup --env=prod
-            /opt/alt/php83/usr/bin/php bin/console doctrine:migrations:migrate --no-interaction --env=prod
+            /opt/alt/php83/usr/bin/php bin/console doctrine:migrations:migrate --no-interaction --env=prod --allow-no-migration
