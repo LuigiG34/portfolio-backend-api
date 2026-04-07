@@ -24,7 +24,7 @@ final class SendContactEmailHandler
     public function __invoke(SendContactEmail $message): void
     {
         $email = (new Email())
-            ->from($message->getEmail())
+            ->from($this->emailTo)
             ->to($this->emailTo)
             ->subject("Portfolio contact from {$message->getName()}")
             ->html("

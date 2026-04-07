@@ -7,6 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Contact;
 use App\Message\SendContactEmail;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
@@ -30,8 +31,11 @@ final class ContactStateProcessor implements ProcessorInterface
         $message = $data->getMessage() ?? throw new \InvalidArgumentException('Contact message is required.');
         $id = $data->getId() ?? throw new \InvalidArgumentException('Contact id is missing.');
 
-        $this->bus->dispatch(new SendContactEmail($name, $email, $message, $id));
-
+        $this->bus->dispatch(
+            new SendContactEmail($name, $email, $message, $id),
+            [new AmqpStamp('contact')]
+        );
+        
         return $data;
     }
 }
