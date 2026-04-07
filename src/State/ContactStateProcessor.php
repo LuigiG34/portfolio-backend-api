@@ -35,7 +35,7 @@ final class ContactStateProcessor implements ProcessorInterface
             new SendContactEmail($name, $email, $message, $id),
             [new AmqpStamp('contact')]
         );
-        
+
         return $data;
     }
 }
